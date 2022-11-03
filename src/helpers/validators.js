@@ -22,13 +22,14 @@ import {
     partial,
     prop,
     values,
-    length
+    length, anyPass
 } from "ramda";
 
 // my func
 const isLessOrEqual = (a, b) => a <= b;
 const maxRepeatInArray = (array)=>{
     let obj = {}
+    if(array.length === 0 ){ return 0}
     array.forEach(item=>{
         if (obj.hasOwnProperty(item)){
             obj[item]++
@@ -98,7 +99,9 @@ const isRedStarOrangeSquareBlueCircle = allPass([isRedStar,isOrangeSquare,isBlue
 
 const isThreeShapeOneColor = compose(isGreaterOrEqualThanThree,maxRepeatInArray,filter(isNotWhite),values)
 
-const isTwoGreenFigureWithTriangleAndOneRed = allPass([isGreenTriangle,isMinTwoShapeGreen, isRedSquare ])
+const hasOneRedShape = compose(equals(1),maxRepeatInArray,filter(isRed),values)
+const hasTwoGreenShape = compose(equals(2),maxRepeatInArray,filter(isGreen()),values)
+const isTwoGreenFigureWithTriangleAndOneRed = allPass([isGreenTriangle,hasTwoGreenShape, hasOneRedShape ])
 
 const isAllOrange = allPass([isOrangeStar, isOrangeCircle, isOrangeSquare, isOrangeTriangle])
 
